@@ -12,9 +12,10 @@ import {
   List,
   ListItem,
   ListItemText,
+  Link,
 } from "@mui/material";
 
-function UserItem({ user }) {
+function UserItem({ user, onShowTodosAndPosts, isSelected }) {
   const [showOtherData, setShowOtherData] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
 
@@ -39,6 +40,10 @@ function UserItem({ user }) {
     fetchIsCompleted();
   }, [user.id]);
 
+  const showTodosAndPosts = (userId) => {
+    onShowTodosAndPosts(userId);
+  };
+
   const handleNameChange = (event) => {};
 
   const handleEmailChange = (event) => {};
@@ -57,6 +62,7 @@ function UserItem({ user }) {
         border: `2px solid ${isCompleted ? "green" : "red"}`,
         marginBottom: "20px",
         maxWidth: "600px",
+        backgroundColor: isSelected ? "#ffd699" : null,
       }}
     >
       <CardContent>
@@ -67,9 +73,15 @@ function UserItem({ user }) {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5" component="div">
-            <a>{user.id}</a>
-          </Typography>
+          <Link
+            component="button"
+            variant="body1"
+            onClick={() => {
+              showTodosAndPosts(user.id);
+            }}
+          >
+            {user.id}
+          </Link>
         </Box>
         <form onSubmit={handleUpdate}>
           <Grid container spacing={2} sx={{ mt: 2 }}>
@@ -94,7 +106,8 @@ function UserItem({ user }) {
             <Grid item xs={6}>
               <Button
                 variant="outlined"
-                onClick={() => setShowOtherData(!showOtherData)}
+                onMouseOver={() => setShowOtherData(!showOtherData)}
+                onMouseLeave={() => setShowOtherData(!showOtherData)}
               >
                 Other Data
               </Button>

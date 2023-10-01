@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar({ onSearch }) {
+export default function Navbar({ onSearch, onChangeUserForm }) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
@@ -81,9 +82,16 @@ export default function Navbar({ onSearch }) {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
-            <Button variant="contained" color="primary" sx={{ ml: 1 }}>
-              Add User
-            </Button>
+            <Tooltip title="Add New User">
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ ml: 1 }}
+                onClick={onChangeUserForm}
+              >
+                Add User
+              </Button>
+            </Tooltip>
           </Box>
         </Toolbar>
       </AppBar>
