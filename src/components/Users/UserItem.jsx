@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { updateUser } from "../../Api/utils";
 import {
   Card,
   CardContent,
@@ -13,11 +14,27 @@ import {
   ListItem,
   ListItemText,
   Link,
+  Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-function UserItem({ user, onShowTodosAndPosts, isSelected }) {
+function UserItem({
+  user,
+  onShowTodosAndPosts,
+  isSelected,
+  onDeleteUser,
+  onUpdateUser,
+}) {
+  const [nameInput, setNameInput] = useState(user.name);
+  const [emailInput, setEmailInput] = useState(user.email);
   const [showOtherData, setShowOtherData] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false); // new state variable
 
   // check if the users todos are completed
   const checkIsCompleted = async (id) => {
@@ -44,16 +61,39 @@ function UserItem({ user, onShowTodosAndPosts, isSelected }) {
     onShowTodosAndPosts(userId);
   };
 
-  const handleNameChange = (event) => {};
-
-  const handleEmailChange = (event) => {};
-
-  const handleUpdate = () => {
-    // TODO: Implement update logic
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    const updatedUser = {
+      ...user,
+      name: nameInput,
+      email: emailInput,
+    };
+    try {
+      const response = await updateUser(user.id, updatedUser);
+      //console.log(response.data);
+      // TODO: Handle successful update
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false); // set showAlert to false after 5 seconds
+      }, 3000);
+      onUpdateUser(response.data);
+    } catch (error) {
+      console.log(error);
+      // TODO: Handle error
+    }
   };
 
   const handleDelete = () => {
-    // TODO: Implement delete logic
+    setShowConfirmDialog(true); // show the confirmation dialog
+  };
+
+  const handleConfirmDelete = () => {
+    setShowConfirmDialog(false); // hide the confirmation dialog
+    onDeleteUser(user.id); // call the onDeleteUser function with the user id
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmDialog(false); // hide the confirmation dialog
   };
 
   return (
@@ -82,16 +122,22 @@ function UserItem({ user, onShowTodosAndPosts, isSelected }) {
           >
             {user.id}
           </Link>
+          {showAlert && ( // display the alert if showAlert is true
+            <Alert severity="success" sx={{ marginTop: "10px" }}>
+              User has been updated
+            </Alert>
+          )}
         </Box>
-        <form onSubmit={handleUpdate}>
+
+        <form onSubmit={handleUpdateSubmit}>
           <Grid container spacing={2} sx={{ mt: 2 }}>
             <Grid item xs={12}>
               <TextField
                 id="name"
                 variant="outlined"
                 fullWidth
-                value={user.name}
-                // onChange={handleNameChange}
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -99,8 +145,8 @@ function UserItem({ user, onShowTodosAndPosts, isSelected }) {
                 id="email"
                 variant="outlined"
                 fullWidth
-                value={user.email}
-                // onChange={handleEmailChange}
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
@@ -117,12 +163,30 @@ function UserItem({ user, onShowTodosAndPosts, isSelected }) {
               <Button variant="contained" color="primary" type="submit">
                 Update
               </Button>
-              <Button variant="contained" color="error" onClick={handleDelete}>
+              <Button
+                variant="contained"
+                startIcon={<DeleteIcon />}
+                color="error"
+                type="button"
+                onClick={handleDelete}
+              >
                 Delete
               </Button>
             </Grid>
           </Grid>
         </form>
+        <Dialog open={showConfirmDialog} onClose={handleCancelDelete}>
+          <DialogTitle>Delete User</DialogTitle>
+          <DialogContent>
+            <Typography>Are you sure you want to delete this user?</Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCancelDelete}>Cancel</Button>
+            <Button onClick={handleConfirmDelete} autoFocus>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </CardContent>
       {showOtherData && (
         <CardContent>
