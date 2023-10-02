@@ -1,8 +1,8 @@
 import React from "react";
 import PostItem from "./PostItem";
-import { posts } from "../../dummy-data";
 import { Box, Typography, Button } from "@mui/material";
-const Posts = ({ userId }) => {
+
+const Posts = ({ userId, posts }) => {
   const filteredPosts = posts.filter((post) => post.userId === userId);
 
   return (

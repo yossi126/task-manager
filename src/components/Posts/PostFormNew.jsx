@@ -1,7 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography, Button, TextField } from "@mui/material";
 
-const PostFormNew = () => {
+const PostFormNew = ({ onAddForm, onGoBack }) => {
+  const [formTitle, setFormTitle] = useState("");
+  const [formBody, setFormBody] = useState("");
+  const [input1Error, setInput1Error] = useState(false);
+  const [input2Error, setInput2Error] = useState(false);
+
+  const handelAddPost = () => {
+    if (formTitle && formBody === "") {
+      setInput1Error(true);
+      setInput2Error(true);
+    } else {
+      setInput1Error(false);
+      setInput2Error(false);
+      onAddForm(formTitle, formBody);
+      onGoBack();
+    }
+  };
+
+  const handleInputTitleChange = (e) => {
+    setFormTitle(e.target.value);
+    if (e.target.value !== "") {
+      setInput1Error(false);
+    }
+  };
+
+  const handleInputBodyChange = (e) => {
+    setFormBody(e.target.value);
+    if (e.target.value !== "") {
+      setInput2Error(false);
+    }
+  };
+
+  const handleCancel = () => {
+    onGoBack();
+  };
+
   return (
     <Box
       sx={{
@@ -16,13 +51,25 @@ const PostFormNew = () => {
       }}
     >
       <Typography variant="h6">Add New Post</Typography>
-      <TextField label="Title" variant="outlined" />
-      <TextField label="Body" variant="outlined" />
+      <TextField
+        variant="outlined"
+        onChange={handleInputTitleChange}
+        error={input1Error}
+        label={input1Error ? "Error" : "Title"}
+        helperText={input1Error ? "Incorrect entry." : ""}
+      />
+      <TextField
+        variant="outlined"
+        onChange={handleInputBodyChange}
+        error={input2Error}
+        label={input2Error ? "Error" : "Body"}
+        helperText={input2Error ? "Incorrect entry." : ""}
+      />
       <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
-        <Button variant="outlined" sx={{ mr: "16px" }}>
+        <Button variant="outlined" sx={{ mr: "16px" }} onClick={handleCancel}>
           Cancel
         </Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handelAddPost}>
           Add
         </Button>
       </Box>

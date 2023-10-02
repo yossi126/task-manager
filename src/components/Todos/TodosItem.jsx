@@ -1,7 +1,12 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import { markTodoAsCompleted } from "../../Api/utils";
 
-const TodosItem = ({ todo }) => {
+const TodosItem = ({ todo, onCompleted }) => {
+  const handelCompleted = async () => {
+    onCompleted(todo.id);
+  };
   return (
     <Box
       sx={{
@@ -25,9 +30,17 @@ const TodosItem = ({ todo }) => {
           {todo.completed ? "Completed" : "Not Completed"}
         </Typography>
       </Box>
-      <Button variant="contained" sx={{ ml: "auto" }}>
-        Mark Completed
-      </Button>
+      {todo.completed ? (
+        <CheckIcon color="success" />
+      ) : (
+        <Button
+          variant="contained"
+          sx={{ ml: "auto" }}
+          onClick={handelCompleted}
+        >
+          Mark Completed
+        </Button>
+      )}
     </Box>
   );
 };

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import TodosItem from "./TodosItem";
-import TodoFormNew from "./TodoFormNew";
-import { todos } from "../../dummy-data";
 //mui
 import { Button, Box, Typography } from "@mui/material";
 
-const Todos = ({ userId }) => {
-  const [displayForm, setDisplayForm] = useState(false);
+const Todos = ({ userId, todos, onCompletedTodo }) => {
   const filteredTodos = todos.filter((todo) => todo.userId === userId);
+
+  const handelCompleted = (todoId) => {
+    onCompletedTodo(todoId);
+  };
 
   return (
     <>
@@ -15,7 +16,7 @@ const Todos = ({ userId }) => {
         Todos
       </Typography>
       {filteredTodos.map((todo) => (
-        <TodosItem key={todo.id} todo={todo} />
+        <TodosItem key={todo.id} todo={todo} onCompleted={handelCompleted} />
       ))}
     </>
   );

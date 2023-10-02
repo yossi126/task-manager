@@ -178,7 +178,9 @@ function UserItem({
         <Dialog open={showConfirmDialog} onClose={handleCancelDelete}>
           <DialogTitle>Delete User</DialogTitle>
           <DialogContent>
-            <Typography>Are you sure you want to delete this user?</Typography>
+            <Typography>
+              Are you sure you want to delete this user and all his data?
+            </Typography>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCancelDelete}>Cancel</Button>
