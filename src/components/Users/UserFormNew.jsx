@@ -5,16 +5,41 @@ import { dummyUser } from "../../dummy-data";
 const UserFormNew = ({ onAddUser, onGoBack, currentLength }) => {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
+  const [nameError, setInputNameError] = useState(false);
+  const [emailError, setInputEmailError] = useState(false);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handelSubmit = () => {
-    let user = {
-      ...dummyUser,
-      id: currentLength + 1,
-      name: nameInput,
-      email: emailInput,
-    };
-    onAddUser(user);
-    onGoBack();
+    if (nameInput === "") {
+      setInputNameError(true);
+    } else if (!emailRegex.test(emailInput)) {
+      setInputEmailError(true);
+    } else {
+      setInputNameError(false);
+      setInputEmailError(false);
+      let user = {
+        ...dummyUser,
+        id: currentLength + 1,
+        name: nameInput,
+        email: emailInput,
+      };
+      onAddUser(user);
+      onGoBack();
+    }
+  };
+
+  const handleInputNameChange = (e) => {
+    setNameInput(e.target.value);
+    if (e.target.value !== "") {
+      setInputNameError(false);
+    }
+  };
+
+  const handleInputEmailChange = (e) => {
+    setEmailInput(e.target.value);
+    if (e.target.value !== "") {
+      setInputEmailError(false);
+    }
   };
 
   const handleCancel = () => {
@@ -37,16 +62,20 @@ const UserFormNew = ({ onAddUser, onGoBack, currentLength }) => {
       >
         <Typography variant="h6">Add New User</Typography>
         <TextField
-          label="Name"
           variant="outlined"
           value={nameInput}
-          onChange={(e) => setNameInput(e.target.value)}
+          onChange={handleInputNameChange}
+          error={nameError}
+          label={nameError ? "Error" : "Name"}
+          helperText={nameError ? "Please provide user name." : ""}
         />
         <TextField
-          label="Email"
           variant="outlined"
           value={emailInput}
-          onChange={(e) => setEmailInput(e.target.value)}
+          onChange={handleInputEmailChange}
+          error={emailError}
+          label={emailError ? "Error" : "Email"}
+          helperText={emailError ? "Please provide valid email." : ""}
         />
         <Box
           sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}

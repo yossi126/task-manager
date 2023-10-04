@@ -58,14 +58,14 @@ const PostFormNew = ({ onAddForm, onGoBack }) => {
         onChange={handleInputTitleChange}
         error={input1Error}
         label={input1Error ? "Error" : "Title"}
-        helperText={input1Error ? "Incorrect entry." : ""}
+        helperText={input1Error ? "Please provide a title." : ""}
       />
       <TextField
         variant="outlined"
         onChange={handleInputBodyChange}
         error={input2Error}
         label={input2Error ? "Error" : "Body"}
-        helperText={input2Error ? "Incorrect entry." : ""}
+        helperText={input2Error ? "Please provide post body." : ""}
       />
       <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
         <Button variant="outlined" sx={{ mr: "16px" }} onClick={handleCancel}>

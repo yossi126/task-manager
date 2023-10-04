@@ -47,7 +47,7 @@ const TodoFormNew = ({ onAddTodo, onGoBack }) => {
         onChange={handleInputChange}
         error={inputError}
         label={inputError ? "Error" : "Title"}
-        helperText={inputError ? "Incorrect entry." : ""}
+        helperText={inputError ? "Please provide valid title." : ""}
       />
       <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
         <Button variant="outlined" sx={{ mr: "16px" }} onClick={handleCancel}>
