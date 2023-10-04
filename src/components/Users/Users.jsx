@@ -8,6 +8,7 @@ const Users = ({
   filteredUsers,
   onUpdateUser,
   onDeleteUser,
+  obj,
 }) => {
   const [showAlert, setShowAlert] = useState(false);
 
@@ -26,6 +27,10 @@ const Users = ({
   const handelUpdateUser = async (userObj) => {
     onUpdateUser(userObj);
   };
+
+  if (filteredUsers.length === 0) {
+    return <Alert severity="info">No users found...</Alert>;
+  }
 
   return (
     <>

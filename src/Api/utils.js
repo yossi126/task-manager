@@ -6,10 +6,11 @@ const postsUrl = "https://jsonplaceholder.typicode.com/posts";
 
 //create
 export const addUser = (data) => axios.post(usersUrl, data);
-//get all
+//get
 export const getAllUsers = () => axios.get(usersUrl);
 export const getAllToDos = () => axios.get(todosUrl);
 export const getAllPosts = () => axios.get(postsUrl);
+export const getToDoById = (id) => axios.get(`${todosUrl}/${id}`);
 //update
 export const updateUser = (id, data) => axios.patch(`${usersUrl}/${id}`, data);
 export const markTodoAsCompleted = (id, data) =>

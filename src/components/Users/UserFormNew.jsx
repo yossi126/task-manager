@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Box, Typography, Button, TextField } from "@mui/material";
 import { dummyUser } from "../../dummy-data";
 
-const UserFormNew = ({ onAddUser, onGoBack }) => {
+const UserFormNew = ({ onAddUser, onGoBack, currentLength }) => {
   const [nameInput, setNameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
 
   const handelSubmit = () => {
     let user = {
       ...dummyUser,
-      id: Math.floor(Math.random() * 89) + 11,
+      id: currentLength + 1,
       name: nameInput,
       email: emailInput,
     };
@@ -51,12 +51,7 @@ const UserFormNew = ({ onAddUser, onGoBack }) => {
         <Box
           sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
         >
-          <Button
-            variant="outlined"
-            color="warning"
-            sx={{ mr: "16px" }}
-            onClick={handleCancel}
-          >
+          <Button variant="outlined" sx={{ mr: "16px" }} onClick={handleCancel}>
             Cancel
           </Button>
           <Button

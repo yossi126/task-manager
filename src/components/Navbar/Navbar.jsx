@@ -62,7 +62,7 @@ export default function Navbar({ onSearch, onChangeUserForm }) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar>
         <Toolbar>
           <Typography
             variant="h6"
@@ -78,20 +78,19 @@ export default function Navbar({ onSearch, onChangeUserForm }) {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-                placeholder="Search…"
+                placeholder="Search users"
                 inputProps={{ "aria-label": "search" }}
+                sx={{ width: "200px" }}
               />
             </Search>
-            <Tooltip title="Add New User">
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ ml: 1 }}
-                onClick={onChangeUserForm}
-              >
-                Add User
-              </Button>
-            </Tooltip>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ ml: 1 }}
+              onClick={onChangeUserForm}
+            >
+              Add User
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>

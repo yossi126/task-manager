@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, TextField } from "@mui/material";
+import { Box, Typography, Button, TextField, CssBaseline } from "@mui/material";
 
 const TodoFormNew = ({ onAddTodo, onGoBack }) => {
   const [todoInput, setTodoInput] = useState("");
@@ -29,6 +29,7 @@ const TodoFormNew = ({ onAddTodo, onGoBack }) => {
   return (
     <Box
       sx={{
+        mt: "16px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -37,9 +38,10 @@ const TodoFormNew = ({ onAddTodo, onGoBack }) => {
         height: "100%",
         padding: "16px",
         boxSizing: "border-box",
+        boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.4)",
       }}
     >
-      <Typography variant="h6">Add New Todo</Typography>
+      <Typography variant="h6">Add new todo</Typography>
       <TextField
         variant="outlined"
         onChange={handleInputChange}
@@ -55,6 +57,7 @@ const TodoFormNew = ({ onAddTodo, onGoBack }) => {
           Add
         </Button>
       </Box>
+      <CssBaseline />
     </Box>
   );
 };

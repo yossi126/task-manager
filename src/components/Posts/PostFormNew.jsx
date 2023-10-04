@@ -8,8 +8,9 @@ const PostFormNew = ({ onAddForm, onGoBack }) => {
   const [input2Error, setInput2Error] = useState(false);
 
   const handelAddPost = () => {
-    if (formTitle && formBody === "") {
+    if (formTitle === "") {
       setInput1Error(true);
+    } else if (formBody === "") {
       setInput2Error(true);
     } else {
       setInput1Error(false);
@@ -48,9 +49,10 @@ const PostFormNew = ({ onAddForm, onGoBack }) => {
         height: "100%",
         padding: "16px",
         boxSizing: "border-box",
+        boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.4)",
       }}
     >
-      <Typography variant="h6">Add New Post</Typography>
+      <Typography variant="h6">Add new post</Typography>
       <TextField
         variant="outlined"
         onChange={handleInputTitleChange}

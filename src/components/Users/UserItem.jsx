@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { updateUser } from "../../Api/utils";
 import {
   Card,
@@ -19,8 +18,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Tooltip,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import UpdateIcon from "@mui/icons-material/Update";
 
 function UserItem({
   user,
@@ -32,30 +33,8 @@ function UserItem({
   const [nameInput, setNameInput] = useState(user.name);
   const [emailInput, setEmailInput] = useState(user.email);
   const [showOtherData, setShowOtherData] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false); // new state variable
-
-  // check if the users todos are completed
-  const checkIsCompleted = async (id) => {
-    const response = await axios.get(
-      `https://jsonplaceholder.typicode.com/todos/?userId=${id}`
-    );
-    for (const element of response.data) {
-      if (element.completed === false) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  useEffect(() => {
-    const fetchIsCompleted = async () => {
-      const completed = await checkIsCompleted(user.id);
-      setIsCompleted(completed);
-    };
-    fetchIsCompleted();
-  }, [user.id]);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   const showTodosAndPosts = (userId) => {
     onShowTodosAndPosts(userId);
@@ -98,8 +77,9 @@ function UserItem({
 
   return (
     <Card
+      id={user.id}
       sx={{
-        border: `2px solid ${isCompleted ? "green" : "red"}`,
+        border: `red 4px solid`,
         marginBottom: "20px",
         maxWidth: "600px",
         backgroundColor: isSelected ? "#ffd699" : null,
@@ -113,15 +93,17 @@ function UserItem({
             alignItems: "center",
           }}
         >
-          <Link
-            component="button"
-            variant="body1"
-            onClick={() => {
-              showTodosAndPosts(user.id);
-            }}
-          >
-            {user.id}
-          </Link>
+          <Tooltip placement="right" title="Show todo's & posts">
+            <Link
+              component="button"
+              variant="body1"
+              onClick={() => {
+                showTodosAndPosts(user.id);
+              }}
+            >
+              {user.id}
+            </Link>
+          </Tooltip>
           {showAlert && ( // display the alert if showAlert is true
             <Alert severity="success" sx={{ marginTop: "10px" }}>
               User has been updated
@@ -130,7 +112,7 @@ function UserItem({
         </Box>
 
         <form onSubmit={handleUpdateSubmit}>
-          <Grid container spacing={2} sx={{ mt: 2 }}>
+          <Grid container spacing={2} sx={{ mt: 0 }}>
             <Grid item xs={12}>
               <TextField
                 id="name"
@@ -160,7 +142,12 @@ function UserItem({
             </Grid>
 
             <Grid item xs={6}>
-              <Button variant="contained" color="primary" type="submit">
+              <Button
+                startIcon={<UpdateIcon />}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
                 Update
               </Button>
               <Button
