@@ -1,8 +1,9 @@
-# React + Vite
+# Task Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This web site is a task manager that with data from [Json place holder](https://jsonplaceholder.typicode.com/)
 
-Currently, two official plugins are available:
+I also used MUI for the UI
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+In this site you can do CRUD operations, search and add users, add todo's and posts, and when you mark all users todo's as completed, the border of the user will be green.
+
+You can check out the live preview for the web site [here](https://651daff4ad22de3a49fb184d--fastidious-ganache-4ce86a.netlify.app/)
